@@ -1,7 +1,8 @@
 """Blogly application."""
 
 from flask import Flask, request, redirect, render_template
-from flask_debugtoolbar import DebugToolbarExtension
+# from flask_debugtoolbar import DebugToolbarExtension  
+    # Commented this line out because it's causing an error
 from models import db, connect_db, User
 
 app = Flask(__name__)
@@ -10,10 +11,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = True
 app.config['SECRET_KEY'] = 'itsasecret'
 
-toolbar = DebugToolbarExtension(app)
+# toolbar = DebugToolbarExtension(app)   
+    # Commented this line out because it's causing an error
 
 connect_db(app)
-db.create_all()
+
+if __name__ == "__main__":
+    db.create_all()
+    app.run()
+
 
 
 @app.route('/')
@@ -61,7 +67,7 @@ def users_show(user_id):
 
 @app.route('/users/<int:user_id>/edit')
 def users_edit(user_id):
-    """PAge that shows a form to edit an existing user's information."""
+    """Page that shows a form to edit an existing user's information."""
 
     user = User.query.get_or_404(user_id)
     return render_template('users/edit.html', user=user)
