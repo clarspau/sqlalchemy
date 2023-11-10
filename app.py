@@ -3,7 +3,7 @@
 from flask import Flask, request, redirect, render_template, flash
 # from flask_debugtoolbar import DebugToolbarExtension
 # Commented this line out because it's causing an error
-from models import Post, db, connect_db, User
+from models import db, connect_db, User, Post
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
@@ -139,7 +139,7 @@ def posts_new(user_id):
     new_post = Post(
         title=request.form['title'],
         content=request.form['content'],
-        user=user  # Pass the user object
+        user_id=user.id  # Pass the user object
     )
 
     db.session.add(new_post)
@@ -147,6 +147,14 @@ def posts_new(user_id):
 
     flash(f"New post '{new_post.title}' added!")
     return redirect(f"/users/{user_id}")
+
+
+@app.route('/posts/<int:post_id>')
+def posts_show(post_id):
+    """Show a page for a specific post."""
+
+    post = Post.query.get_or_404(post_id)
+    return render_template('posts/show.html', post=post)
 
 
 @app.route('/posts/<int:post_id>/edit')

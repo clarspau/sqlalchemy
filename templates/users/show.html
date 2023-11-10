@@ -29,7 +29,7 @@
                {% for post in user.posts %}
                <li>
                     <a href="/posts/{{ post.id }}">{{ post.title }}</a>
-                    <small>{{ post.friendly_date }}</small>
+                    <small>{{ post.created_at.strftime('%a %b %d, %Y, %I:%M %p') }}</small>
                </li>
                {% endfor %}
           </ul>

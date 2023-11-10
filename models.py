@@ -32,6 +32,9 @@ class Post(db.Model):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
+    # Add the relationship to the User model
+    user = db.relationship('User', backref='posts')
+
 
 def connect_db(app):
     """Include this database in your Flask app by setting it up within your Flask app."""
