@@ -17,6 +17,15 @@
           {{ post.created_at.strftime('%a %b %d, %Y, %I:%M %p') }}</small>
 </p>
 
+{% if post.tags %}
+<p>
+     <b>Tags:</b>
+     {% for tag in post.tags %}
+     <a href="/tags/{{ tag.id }}"><i class="badge badge-primary">{{ tag.name }}</i></a>
+     {% endfor %}
+</p>
+{% endif %}
+
 {% endfor %}
 
 {% endblock %}
